@@ -1,0 +1,96 @@
+Build 1 ================================================
+
+
+Cruel illnesse
+
+Playerhandling:
+- List von Spieler, wann welche Krankheit zuletzt gecheckt wurde.
+-
+
+Config:
+- definition, welcher übertragungtyp, welche events nutzt.
+- Krankheiten, heilmittel, Impfungen und stärkungsmittel global ausstellbar machen.
+
+Mysqlhandling: (flat file anbieten?)
+- pro Spieler und pro Krankheit, falls man erkrankt ist, sowie das aktuelle, das höchste Level, das erkrankheitsdatum, ob er geheilt ist, wann er vollständig geheilt wurde.
+- pro Krankheit pro Spieler, momentane grunderkrankungswahrscheinlichkeit(nur krankheitswahrs., immunitätswahrs., impfungswahrs.)
+- pro item amen items, item json und base64 speichern.
+
+Erstellung dynamischer Krankheiten.
+Values:
+- name
+- verstärkendes biom (Krankheit wird schlimmer)
+- heilende biom
+  Beide biome als Liste. Dazu einen Zeit wert und die Prozent an Wahrscheinlichkeit, dass es schlimmer odrr besser wird.
+- item Liste, welche mit wahrscheinlich die Krankheit verbessert oder verschlimmert.
+- krankheittyp Bakterien oder Virus, psychisch, magisch oder unbekannt.
+- Wahrscheinlichkeit, bei einer Heilung eines Patienten, dass die Krankheit immun gegen heilitems wird. Eventuell als Liste mit item Bezug.
+- Wahrscheinlichkeit, nach Zeiteinheit, Krankheit verliert immunität.
+- Liste an Krankheiten, welche diese Krankheit zu einer Wahrscheinlichkeit begünstigt oder immuner macht. (negative Wahrscheinlichkeit)
+- übertragungtyp (Tröpfchen, Luft etc.)
+- übertragungswahrscheinlichkeit
+- übertragungtyp stellt eine Liste an Events dar, wann ein Spieler, einen anderen Spieler ansteckt.
+- symthome Liste, sowie deren stäke
+
+Symthome:
+- name
+- definition, was dem Spieler passieren soll. Pro Level definiert.
+  - die zeitlänge abstand, falls lebensschaden verursacht wird und wie hoch.
+  - die attribute des Spielers verändern.
+  - Die zeitlänge Abstand, falls potioneffekte verteilt werden. Dazu welche, wie stark und wie lange.
+  - sonstige Spieler Sachen verändern.
+
+Heilmittel:
+- itemstack
+- herstellungstyp
+- Rezept (verschiedene Pfade, je nach rezepttyp)
+- type des Heilmittels. (Antibiotika, Tabletten, RNA mutagen, Magischer Trank, unbekannter xx.)
+- der Typ bestimmt die spezielle Wirksamkeit gegen den Typ einer Krankheit. Spezifische Verschlimmerung in andere Krankheiten müssen separat definiert werden.
+- Liste von Krankheiten, wogegen die Krankheit hilft zu einer bestimmten Wahrscheinlichkeit und wieviel Level auf einmal geheilt werden können. Nicht definierte Krankheiten, welche der gegentyp des Heilmittels ist, haben automatisch 25 % Wahrscheinlichkeit sowie 3 level.
+- Liste an Krankheiten, welche das Heilmittel begünstigen oder dem Spieler Immunität verleihen für einen bestimmten Zeiteinheit.
+
+Impfungen:
+- itemstack
+- herstellungstyp
+- rezept (mehre Pfade, da es auch Brau oder bratrezepte sein können)
+- Liste an Krankheiten welche sie immunitätswahrscheinlichkeiten verleihen (negative sind auch erlaubt)
+- Liste an Krankheiten, welche mit einer Wahrscheinlichkeit, diese andere Krankheit hervorrufen am Spieler (aka das die Abfrage gestartet, ob der Spieler krank wird)
+
+Stärkungsmittel:
+- itemstavk
+- herstellungstyp
+- rezept
+- Liste an potion effekte, mit Stufe, und Dauer.
+
+erkrankunghandling:
+Spieler haben ein x % Wahrscheinlichkeit eine krankheit zu bekommen. Biome, andere Krankheiten, übertragungswahrscheinlichkeit, heilmittel sowie Impfungen und immunitätslevel der Krankheit erhöhen oder senken die Erkrankungswahscheinlichkeit sowie, falls man schon erkrankt ist, daß Level der Erkrankung.
+
+Biomhandling:
+- alle 20 Sekunden soll eine biom Prüfung stattfinden, und falls gegeben, die Abfrage starten, ob der Spieler erkrankt.
+
+Heilmittel, Impfungen und stärkungsmittelhandling:
+- so balt man mit dem item in die Luft klickt, konsumiert man das item.
+- es startet der Vorgang des types.
+
+Permissionhandling:
+- grundpermission, ob man überhaupt krank werden kann.
+- jedes item soll ein herstellungsrezeptperm haben
+- biome haben alle ein bypassperm, sodass man nicht durch biome krank werden kann
+- bypassPerm sodass man nicht durch andere Spieler krank werden kann.
+- bypassperm, sodass man nicht durch heilmittel krank werden kann.
+- bypassperm, sodass man nicht durch Impfungen krank werden kann.
+
+Vererbung:
+PlayerInfection extends player
+- biom infection(biom) methode
+- illnessinfection(illness, other additional probability)
+- vaccinate(vaccination, other additional probability)
+
+Doktor und heiler:
+- npc können als heiler auftreten.
+- pro npc Namen, wird definiert welche Krankheit, bis zu welchem Level, dieser er es heilen kann.
+- npc können per Befehl oder per Interaktion gezriggert werden. Wird aber eingestellt.
+- npc können Geld, exp und items für die Heilung einfordern.
+
+Sonstige Items:
+- item in die Hand halten und in die MySQL eintragen lassen. 
