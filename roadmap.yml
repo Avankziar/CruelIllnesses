@@ -23,7 +23,7 @@ Values:
 - heilende biom
   Beide biome als Liste. Dazu einen Zeit wert und die Prozent an Wahrscheinlichkeit, dass es schlimmer odrr besser wird.
 - item Liste, welche mit wahrscheinlich die Krankheit verbessert oder verschlimmert.
-- krankheittyp Bakterien oder Virus, psychisch, magisch oder unbekannt.
+- krankheittyp Bakterien oder Virus, physisch, psychisch, magisch oder unbekannt.
 - Wahrscheinlichkeit, bei einer Heilung eines Patienten, dass die Krankheit immun gegen heilitems wird. Eventuell als Liste mit item Bezug.
 - Wahrscheinlichkeit, nach Zeiteinheit, Krankheit verliert immunität.
 - Liste an Krankheiten, welche diese Krankheit zu einer Wahrscheinlichkeit begünstigt oder immuner macht. (negative Wahrscheinlichkeit)
@@ -31,6 +31,7 @@ Values:
 - übertragungswahrscheinlichkeit
 - übertragungtyp stellt eine Liste an Events dar, wann ein Spieler, einen anderen Spieler ansteckt.
 - symthome Liste, sowie deren stäke
+- Effektpartikel pro level.
 
 Symthome:
 - name
